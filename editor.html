@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Studio Editor | Derek Sagers</title>
+    <link rel="stylesheet" href="editor.css">
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="editor-header">
+        <div class="header-brand">
+            <div class="brand-monogram">DS</div>
+            <div class="brand-text">
+                <h1>Portfolio Studio Editor</h1>
+                <p>Content Manager for Derek Sagers Portfolio</p>
+            </div>
+        </div>
+
+        <nav class="editor-nav">
+            <button class="nav-tab active" data-tab="art">
+                <span class="tab-icon"><i data-lucide="image"></i></span> Art Gallery (<span id="artCountBadge">0</span>)
+            </button>
+            <button class="nav-tab" data-tab="categories">
+                <span class="tab-icon"><i data-lucide="tags"></i></span> Categories
+            </button>
+            <button class="nav-tab" data-tab="cover">
+                <span class="tab-icon"><i data-lucide="home"></i></span> Cover Page
+            </button>
+            <button class="nav-tab" data-tab="about">
+                <span class="tab-icon"><i data-lucide="user"></i></span> About Page
+            </button>
+            <button class="nav-tab" data-tab="commissions">
+                <span class="tab-icon"><i data-lucide="briefcase"></i></span> Commissions
+            </button>
+            <button class="nav-tab highlight" data-tab="code">
+                <span class="tab-icon"><i data-lucide="code-2"></i></span> Code Chunks
+            </button>
+        </nav>
+
+        <div class="header-actions">
+            <span class="save-status" id="saveStatus"><i data-lucide="check-circle-2"></i> Auto-saved locally</span>
+            <button class="btn btn-secondary btn-sm" id="btnExportJson" title="Export state as JSON file"><i data-lucide="download"></i> Backup</button>
+            <button class="btn btn-secondary btn-sm" id="btnImportJson" title="Import JSON file"><i data-lucide="upload"></i> Restore</button>
+            <button class="btn btn-danger btn-sm" id="btnResetData" title="Reset all changes back to website defaults"><i data-lucide="rotate-ccw"></i> Reset</button>
+        </div>
+    </header>
+
+    <main class="editor-main">
+
+        <!-- TAB 1: ART GALLERY EDITOR -->
+        <section class="tab-content active" id="tab-art">
+            <div class="toolbar">
+                <div class="toolbar-left">
+                    <div class="search-box">
+                        <span class="search-icon"><i data-lucide="search"></i></span>
+                        <input type="text" id="artSearchInput" placeholder="Search artwork title, tag, date...">
+                    </div>
+                    <select id="artCategoryFilter" class="select-input">
+                        <option value="ALL">All Categories</option>
+                    </select>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="artFeaturedFilter"> Featured Only
+                    </label>
+                </div>
+                <div class="toolbar-right">
+                    <button class="btn btn-primary" id="btnAddArtwork">
+                        <span class="btn-icon"><i data-lucide="plus"></i></span> Add New Artwork
+                    </button>
+                </div>
+            </div>
+
+            <div class="stats-banner">
+                <div class="stat-item">Total Items: <strong id="statTotal">0</strong></div>
+                <div class="stat-item">Featured: <strong id="statFeatured">0</strong></div>
+                <div class="stat-item">Categories: <strong id="statCategories">0</strong></div>
+                <div class="stat-item">Showing: <strong id="statShowing">0</strong></div>
+            </div>
+
+            <div class="art-grid" id="artGridContainer">
+                <!-- Dynamically generated artwork cards -->
+            </div>
+        </section>
+
+
+        <!-- TAB 2: CATEGORIES EDITOR -->
+        <section class="tab-content" id="tab-categories">
+            <div class="section-intro">
+                <h2>Manage Artwork Categories</h2>
+                <p>Add new categories (e.g. <em>Handmade</em>, <em>Digital</em>, <em>Watercolor</em>, <em>Sketches</em>) or edit existing ones. Categories automatically update the gallery filters.</p>
+            </div>
+
+            <div class="categories-layout">
+                <div class="card add-category-card">
+                    <h3>Add New Category</h3>
+                    <div class="form-group">
+                        <label for="newCatName">Category Name</label>
+                        <input type="text" id="newCatName" placeholder="e.g. Handmade, Sculptures, Prints">
+                    </div>
+                    <button class="btn btn-primary" id="btnAddCategory"><i data-lucide="plus"></i> Add Category</button>
+                </div>
+
+                <div class="card categories-list-card">
+                    <h3>Active Categories (<span id="catCount">0</span>)</h3>
+                    <div class="categories-list" id="categoriesListContainer">
+                        <!-- Dynamic list of categories -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- TAB 3: COVER PAGE EDITOR -->
+        <section class="tab-content" id="tab-cover">
+            <div class="section-intro">
+                <h2>Cover Page Settings</h2>
+                <p>Edit the artist name, button text, and main background cover image for the landing screen.</p>
+            </div>
+
+            <div class="two-col-layout">
+                <div class="card form-card">
+                    <h3>Cover Details</h3>
+                    <div class="form-group">
+                        <label for="coverTitle">Artist / Website Title</label>
+                        <input type="text" id="coverTitle" value="Derek Sagers">
+                    </div>
+                    <div class="form-group">
+                        <label for="coverBtnText">Button Label</label>
+                        <input type="text" id="coverBtnText" value="VIEW COLLECTION">
+                    </div>
+                    <div class="form-group">
+                        <label for="coverImgSrc">Background Cover Image URL / Path</label>
+                        <input type="text" id="coverImgSrc" value="https://picsum.photos/1000/1000?random=100">
+                        <p class="field-hint">You can use a web URL or relative path like <code>./StarryNight1.webp</code>.</p>
+                    </div>
+                </div>
+
+                <div class="card preview-card">
+                    <h3>Live Cover Preview</h3>
+                    <div class="cover-preview-box" id="coverPreviewBox">
+                        <div class="cover-preview-bg" id="coverPreviewBg"></div>
+                        <div class="cover-preview-content">
+                            <div class="preview-logo">DS</div>
+                            <h2 id="previewCoverTitle">Derek Sagers</h2>
+                            <button id="previewCoverBtn">VIEW COLLECTION</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- TAB 4: ABOUT PAGE EDITOR -->
+        <section class="tab-content" id="tab-about">
+            <div class="section-intro">
+                <h2>About Page &amp; Bio</h2>
+                <p>Customize Derek's portrait image, section heading, biography paragraphs, and listed medium badges.</p>
+            </div>
+
+            <div class="two-col-layout">
+                <div class="card form-card">
+                    <h3>About Page Details</h3>
+                    <div class="form-group">
+                        <label for="aboutHeading">Section Heading</label>
+                        <input type="text" id="aboutHeading" value="About Derek">
+                    </div>
+                    <div class="form-group">
+                        <label for="aboutPhotoSrc">Profile Photo Image URL / Path</label>
+                        <input type="text" id="aboutPhotoSrc" value="https://picsum.photos/600/400?random=about">
+                    </div>
+
+                    <div class="form-group">
+                        <div class="label-with-btn">
+                            <label>Bio Paragraphs</label>
+                            <button class="btn btn-sm btn-secondary" id="btnAddBioPara"><i data-lucide="plus"></i> Add Paragraph</button>
+                        </div>
+                        <div class="bio-paragraphs-list" id="bioParasContainer">
+                            <!-- Dynamic bio paragraph textareas -->
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Skill &amp; Medium Tags</label>
+                        <div class="tags-input-row">
+                            <input type="text" id="newAboutTagInput" placeholder="Add tag e.g. Textile & Craft">
+                            <button class="btn btn-secondary" id="btnAddAboutTag">Add</button>
+                        </div>
+                        <div class="tags-chips-container" id="aboutTagsChips">
+                            <!-- Dynamic chips -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card preview-card">
+                    <h3>Live About Panel Preview</h3>
+                    <div class="about-panel-preview">
+                        <div class="about-preview-photo-wrap">
+                            <img id="aboutPreviewPhoto" src="" alt="About Preview">
+                        </div>
+                        <h2 id="aboutPreviewHeading">About Derek</h2>
+                        <div id="aboutPreviewBio"></div>
+                        <div class="about-tags" id="aboutPreviewTags"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- TAB 5: COMMISSIONS EDITOR -->
+        <section class="tab-content" id="tab-commissions">
+            <div class="toolbar">
+                <div class="section-intro" style="margin:0;">
+                    <h2>Commission Offerings</h2>
+                    <p>Manage commission options, pricing, turnaround times, descriptions, and open/closed status.</p>
+                </div>
+                <button class="btn btn-primary" id="btnAddCommission">
+                    <span class="btn-icon"><i data-lucide="plus"></i></span> Add New Commission
+                </button>
+            </div>
+
+            <div class="commissions-list" id="commissionsListContainer">
+                <!-- Dynamically generated commission cards -->
+            </div>
+        </section>
+
+
+        <!-- TAB 6: CODE CHUNKS OUTPUT -->
+        <section class="tab-content" id="tab-code">
+            <div class="section-intro">
+                <h2>Generated Code Chunks</h2>
+                <p class="intro-desc">Copy these code snippets and paste them directly into your website files as instructed below to apply Derek's changes!</p>
+            </div>
+
+            <div class="code-chunks-grid">
+
+                <!-- Chunk 1: portfolio-logic.js (artData) -->
+                <div class="card code-card">
+                    <div class="code-card-header">
+                        <div>
+                            <h3>1. Gallery Artwork Data (<code>artData</code>)</h3>
+                            <p class="code-target-path">Target File: <strong><code>/portfolio-logic.js</code></strong> (Replace lines 5–644)</p>
+                        </div>
+                        <button class="btn btn-primary btn-copy" data-copy-target="codeArtData">
+                            <i data-lucide="copy"></i> Copy <code>artData</code> Code
+                        </button>
+                    </div>
+                    <pre class="code-block"><code id="codeArtData"></code></pre>
+                </div>
+
+                <!-- Chunk 2: commissions-logic.js (commissions) -->
+                <div class="card code-card">
+                    <div class="code-card-header">
+                        <div>
+                            <h3>2. Commissions Offerings (<code>commissions</code>)</h3>
+                            <p class="code-target-path">Target File: <strong><code>/commissions-logic.js</code></strong> (Replace lines 5–48)</p>
+                        </div>
+                        <button class="btn btn-primary btn-copy" data-copy-target="codeCommissions">
+                            <i data-lucide="copy"></i> Copy <code>commissions</code> Code
+                        </button>
+                    </div>
+                    <pre class="code-block"><code id="codeCommissions"></code></pre>
+                </div>
+
+                <!-- Chunk 3: script.js (Cover Page) -->
+                <div class="card code-card">
+                    <div class="code-card-header">
+                        <div>
+                            <h3>3. Cover Page Configuration</h3>
+                            <p class="code-target-path">Target File: <strong><code>/script.js</code></strong> (around line 33) &amp; <strong><code>/index.html</code></strong></p>
+                        </div>
+                        <button class="btn btn-primary btn-copy" data-copy-target="codeCover">
+                            <i data-lucide="copy"></i> Copy Cover Code
+                        </button>
+                    </div>
+                    <pre class="code-block"><code id="codeCover"></code></pre>
+                </div>
+
+                <!-- Chunk 4: portfolio.html (About Panel HTML) -->
+                <div class="card code-card">
+                    <div class="code-card-header">
+                        <div>
+                            <h3>4. About Panel HTML</h3>
+                            <p class="code-target-path">Target File: <strong><code>/portfolio.html</code></strong> (Replace inside <code>&lt;div class="about-content"&gt;</code>)</p>
+                        </div>
+                        <button class="btn btn-primary btn-copy" data-copy-target="codeAbout">
+                            <i data-lucide="copy"></i> Copy About HTML
+                        </button>
+                    </div>
+                    <pre class="code-block"><code id="codeAbout"></code></pre>
+                </div>
+
+                <!-- Chunk 5: Category Tabs Snippet -->
+                <div class="card code-card">
+                    <div class="code-card-header">
+                        <div>
+                            <h3>5. Category Filter Buttons HTML</h3>
+                            <p class="code-target-path">Target File: <strong><code>/portfolio.html</code></strong> (Replace inside <code>&lt;div class="tabs reveal"&gt;</code>)</p>
+                        </div>
+                        <button class="btn btn-primary btn-copy" data-copy-target="codeCategoryTabs">
+                            <i data-lucide="copy"></i> Copy Category Tabs HTML
+                        </button>
+                    </div>
+                    <pre class="code-block"><code id="codeCategoryTabs"></code></pre>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Hidden file inputs for JSON import -->
+    <input type="file" id="jsonFileInput" accept=".json" style="display:none">
+
+    <!-- Toast Notification -->
+    <div class="toast" id="editorToast">Notification</div>
+
+    <!-- Custom Confirm Modal -->
+    <div class="modal-backdrop" id="confirmModalBackdrop">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="confirmModalTitle"><i data-lucide="alert-triangle"></i> Confirm Action</h3>
+                <button class="modal-close-btn" id="confirmModalCloseBtn">&times;</button>
+            </div>
+            <div class="modal-body" id="confirmModalBody">
+                Are you sure you want to perform this action?
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="confirmModalCancelBtn">Cancel</button>
+                <button class="btn btn-danger" id="confirmModalActionButton"><i data-lucide="trash-2"></i> Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Prompt Modal -->
+    <div class="modal-backdrop" id="promptModalBackdrop">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="promptModalTitle"><i data-lucide="edit-3"></i> Rename Category</h3>
+                <button class="modal-close-btn" id="promptModalCloseBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label id="promptModalLabel">Category Name</label>
+                    <input type="text" id="promptModalInput" style="width:100%; padding:8px 12px; background:var(--bg-input); border:1px solid var(--border-color); border-radius:var(--radius-sm); color:var(--text-primary);" placeholder="Enter name...">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="promptModalCancelBtn">Cancel</button>
+                <button class="btn btn-primary" id="promptModalSaveButton"><i data-lucide="check"></i> Save</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="editor.js"></script>
+</body>
+</html>

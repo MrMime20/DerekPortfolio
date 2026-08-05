@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Derek Sagers</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Loading screen -->
+    <div class="loader" id="loader">
+        <svg class="loader-logo" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle"
+                  font-family="Georgia, serif" font-size="22" fill="white" letter-spacing="1">DS</text>
+            <rect x="1" y="1" width="46" height="46" rx="4" stroke="white" stroke-width="1.2" fill="none"/>
+        </svg>
+    </div>
+
+    <canvas id="rippleCanvas"></canvas>
+
+    <a href="index.html" class="site-logo" aria-label="Home">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle"
+                  font-family="Georgia, serif" font-size="22" fill="white" letter-spacing="1">DS</text>
+            <rect x="1" y="1" width="46" height="46" rx="4" stroke="white" stroke-width="1.2" fill="none"/>
+        </svg>
+    </a>
+
+    <div class="ui-layer" id="uiLayer">
+        <h1>Derek Sagers</h1>
+        <button id="exploreBtn">VIEW COLLECTION</button>
+    </div>
+
+    <div id="lagNotification" class="notification-toast">
+        Optimizing performance…
+    </div>
+
+    <div class="transition-overlay"></div>
+    <script type="module" src="script.js"></script>
+</body>
+</html>

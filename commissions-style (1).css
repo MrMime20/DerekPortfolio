@@ -1,0 +1,437 @@
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    background: #050505;
+    color: white;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+    opacity: 0;
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+body.page-loaded {
+    opacity: 1;
+}
+body.page-leaving {
+    opacity: 0;
+    filter: blur(4px);
+    transform: scale(0.995);
+    transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), filter 0.45s ease;
+}
+
+/* ── Page transition overlay ── */
+.page-transition-overlay {
+    position: fixed; inset: 0;
+    background: #050505;
+    z-index: 9999;
+    clip-path: circle(0% at 50% 50%);
+    pointer-events: none;
+    transition: clip-path 0.65s cubic-bezier(0.77, 0, 0.175, 1);
+}
+body.transition-active .page-transition-overlay {
+    clip-path: circle(150% at 50% 50%);
+    pointer-events: all;
+}
+
+/* ── Intersection Observer Scroll Reveal ── */
+.reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0ms), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0ms);
+    will-change: opacity, transform;
+}
+.reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+
+/* ── Top nav ── */
+.top-nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: 64px; display: flex; align-items: center;
+    justify-content: space-between; padding: 0 28px;
+    z-index: 800;
+    background: linear-gradient(to bottom, rgba(5,5,5,0.95) 0%, transparent 100%);
+}
+.site-logo { display: block; width: 38px; height: 38px; opacity: 0.75; transition: opacity 0.3s; }
+.site-logo:hover { opacity: 1; }
+.site-logo svg { width: 100%; height: 100%; }
+.nav-links { display: flex; gap: 24px; align-items: center; }
+.nav-link {
+    background: none; border: none; color: #888;
+    font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase;
+    cursor: pointer; text-decoration: none; transition: color 0.3s;
+}
+.nav-link:hover { color: white; }
+
+/* ── Page header ── */
+.page-header {
+    padding: 140px 40px 60px;
+    max-width: 700px; margin: 0 auto;
+    text-align: center;
+}
+.page-eyebrow {
+    font-size: 0.65rem; letter-spacing: 4px;
+    text-transform: uppercase; color: #555;
+    margin: 0 0 16px;
+}
+.page-header h1 {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    letter-spacing: 6px; text-transform: uppercase;
+    margin: 0 0 24px;
+}
+.page-sub {
+    color: #666; line-height: 1.8;
+    font-size: 0.9rem; margin: 0;
+}
+
+/* ── Commission cards grid ── */
+.commissions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 0 40px 140px;
+    max-width: 1400px; margin: 0 auto;
+}
+
+.commission-card {
+    background: #0d0d0d;
+    border: 1px solid #1a1a1a;
+    border-radius: 16px;
+    padding: 32px;
+    display: flex; flex-direction: column; gap: 16px;
+    transition: border-color 0.3s, transform 0.3s;
+    position: relative; overflow: hidden;
+    opacity: 0; transform: translateY(20px);
+    animation: cardIn 0.5s ease forwards;
+}
+.commission-card:hover {
+    border-color: #2e2e2e;
+    transform: translateY(-3px);
+}
+
+@keyframes cardIn {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Status badge */
+.status-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 12px; border-radius: 20px;
+    font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase;
+    font-weight: 700; align-self: flex-start;
+}
+.status-badge.open {
+    background: rgba(80,200,120,0.1);
+    border: 1px solid rgba(80,200,120,0.3);
+    color: #50c878;
+}
+.status-badge.closed {
+    background: rgba(200,80,80,0.08);
+    border: 1px solid rgba(200,80,80,0.2);
+    color: #c85050;
+}
+.status-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: currentColor;
+}
+.status-badge.open .status-dot {
+    animation: pulse 2s infinite;
+}
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.3; }
+}
+
+.card-title {
+    font-size: 1.1rem; letter-spacing: 2px;
+    text-transform: uppercase; margin: 0;
+    font-weight: 600;
+}
+.card-desc {
+    color: #777; font-size: 0.85rem;
+    line-height: 1.7; margin: 0; flex: 1;
+}
+
+/* Meta row & card footer row */
+.card-footer-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #1a1a1a;
+    margin-top: auto;
+}
+.card-meta {
+    display: flex; gap: 20px; flex-wrap: wrap; flex: 1;
+}
+.meta-item { display: flex; flex-direction: column; gap: 4px; }
+.meta-label {
+    font-size: 0.55rem; letter-spacing: 2px;
+    text-transform: uppercase; color: #444;
+}
+.meta-value { font-size: 0.9rem; color: #ccc; }
+
+/* ── Image Stack Component in Bottom Right ── */
+.commission-image-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    z-index: 10;
+    flex-shrink: 0;
+}
+
+.stack-layers {
+    position: relative;
+    width: 62px;
+    height: 62px;
+    margin-bottom: 8px;
+}
+
+.stack-layer {
+    position: absolute;
+    inset: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.7);
+    transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s ease, box-shadow 0.3s ease;
+    background: #141414;
+}
+
+.stack-layer img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.layer-0 {
+    z-index: 3;
+    transform: rotate(0deg) translate(0, 0);
+}
+
+.layer-1 {
+    z-index: 2;
+    transform: rotate(-9deg) translate(-6px, -2px);
+    opacity: 0.9;
+}
+
+.layer-2 {
+    z-index: 1;
+    transform: rotate(11deg) translate(6px, -4px);
+    opacity: 0.75;
+}
+
+/* Hover effect on stack */
+.commission-image-stack:hover .layer-0 {
+    transform: rotate(0deg) translate(0, -4px) scale(1.06);
+    border-color: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.8);
+}
+.commission-image-stack:hover .layer-1 {
+    transform: rotate(-16deg) translate(-12px, -6px) scale(1.02);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+.commission-image-stack:hover .layer-2 {
+    transform: rotate(18deg) translate(12px, -8px) scale(1.02);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.stack-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: rgba(20, 20, 20, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 0.6rem;
+    letter-spacing: 1px;
+    color: #e0e0e0;
+    font-weight: 500;
+    backdrop-filter: blur(8px);
+    transition: background 0.3s, border-color 0.3s, color 0.3s;
+}
+
+.commission-image-stack:hover .stack-badge {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: #fff;
+}
+
+/* ── Commission Modal Styling ── */
+.comm-modal {
+    position: fixed; inset: 0; z-index: 9000;
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.35s ease;
+}
+
+.comm-modal.open {
+    opacity: 1; pointer-events: auto;
+}
+
+.comm-modal-backdrop {
+    position: absolute; inset: 0;
+    background: rgba(3, 3, 3, 0.92);
+    backdrop-filter: blur(12px);
+}
+
+.comm-modal-card {
+    position: relative; z-index: 2;
+    width: 100%; max-width: 900px;
+    background: #0d0d0e;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    padding: 28px;
+    display: flex; flex-direction: column; gap: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
+    transform: scale(0.95) translateY(10px);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.comm-modal.open .comm-modal-card {
+    transform: scale(1) translateY(0);
+}
+
+.comm-modal-close {
+    position: absolute; top: 20px; right: 20px; z-index: 5;
+    background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #fff; width: 36px; height: 36px; border-radius: 50%;
+    font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+.comm-modal-close:hover {
+    background: rgba(255, 255, 255, 0.2); border-color: rgba(255, 255, 255, 0.4);
+    transform: scale(1.05);
+}
+
+.comm-modal-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    padding-right: 48px; border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 16px;
+}
+.comm-modal-eyebrow {
+    font-size: 0.6rem; letter-spacing: 3px; text-transform: uppercase; color: #666; display: block; margin-bottom: 4px;
+}
+.comm-modal-header h3 {
+    margin: 0; font-size: 1.3rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; color: #fff;
+}
+.comm-modal-counter {
+    font-size: 0.75rem; letter-spacing: 2px; color: #888;
+}
+
+.comm-modal-stage {
+    position: relative;
+    width: 100%;
+    height: clamp(300px, 55vh, 520px);
+    display: flex; align-items: center; justify-content: center;
+    background: #050505; border-radius: 12px; overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.comm-modal-img-wrap {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    padding: 16px;
+}
+
+.comm-modal-img-wrap img {
+    max-width: 100%; max-height: 100%;
+    object-fit: contain; border-radius: 6px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.comm-modal-nav {
+    position: absolute; top: 50%; transform: translateY(-50%); z-index: 4;
+    background: rgba(15, 15, 15, 0.8); border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff; width: 44px; height: 44px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; backdrop-filter: blur(8px);
+    transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+.comm-modal-nav:hover {
+    background: rgba(255, 255, 255, 0.2); border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-50%) scale(1.08);
+}
+.comm-nav-prev { left: 16px; }
+.comm-nav-next { right: 16px; }
+
+.comm-modal-thumbs {
+    display: flex; gap: 10px; overflow-x: auto; padding-bottom: 4px;
+    justify-content: center; align-items: center;
+}
+.comm-thumb-btn {
+    background: none; border: 2px solid transparent; padding: 0; border-radius: 8px;
+    cursor: pointer; overflow: hidden; width: 52px; height: 52px; flex-shrink: 0;
+    opacity: 0.5; transition: opacity 0.2s, border-color 0.2s, transform 0.2s;
+}
+.comm-thumb-btn.active {
+    opacity: 1; border-color: #fff; transform: scale(1.05);
+}
+.comm-thumb-btn:hover { opacity: 0.85; }
+.comm-thumb-btn img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+}
+
+/* Closed overlay shimmer */
+.commission-card.closed-card::after {
+    content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+        -45deg,
+        transparent, transparent 8px,
+        rgba(255,255,255,0.015) 8px, rgba(255,255,255,0.015) 9px
+    );
+    pointer-events: none; border-radius: 16px;
+}
+
+/* ── Contact button (same as portfolio) ── */
+.contact-btn {
+    position: fixed; bottom: 30px; right: 30px;
+    display: flex; align-items: center; gap: 10px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: white; padding: 13px 22px;
+    border-radius: 40px; font-size: 0.65rem;
+    letter-spacing: 2px; cursor: none; z-index: 700;
+    backdrop-filter: blur(10px);
+    transition: background 0.3s, border-color 0.3s, transform 0.3s cubic-bezier(0.175,0.885,0.32,1.275);
+    overflow: hidden;
+}
+.contact-btn:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.5); transform: translateY(-2px); }
+.contact-btn.copied { border-color: rgba(100,220,130,0.6); background: rgba(100,220,130,0.08); }
+.contact-icon { display: flex; align-items: center; flex-shrink: 0; opacity: 0.7; }
+.contact-btn:hover .contact-icon { opacity: 1; }
+.contact-label { position: relative; height: 1.2em; overflow: hidden; display: flex; flex-direction: column; }
+.contact-default, .contact-copied { transition: transform 0.4s cubic-bezier(0.16,1,0.3,1); white-space: nowrap; line-height: 1.2em; }
+.contact-copied { position: absolute; top: 100%; left: 0; color: #64dc82; }
+.contact-btn.copied .contact-default { transform: translateY(-100%); }
+.contact-btn.copied .contact-copied  { transform: translateY(-100%); }
+
+/* ── Footer ── */
+.site-footer {
+    text-align: center; padding: 28px 40px;
+    border-top: 1px solid #111; color: #333;
+    font-size: 0.65rem; letter-spacing: 1.5px;
+    display: flex; justify-content: space-between;
+    align-items: center; flex-wrap: wrap; gap: 12px;
+}
+.footer-links { display: flex; gap: 20px; }
+.footer-link { color: #333; text-decoration: none; letter-spacing: 1.5px; font-size: 0.65rem; transition: color 0.3s; }
+.footer-link:hover { color: white; }
+
+@media (max-width: 768px) {
+    .commissions-grid { padding: 0 20px 140px; }
+    .page-header { padding: 120px 24px 48px; }
+    .site-footer { justify-content: center; }
+    .contact-btn { bottom: 16px; right: 16px; }
+}

@@ -1,0 +1,8 @@
+{
+  "name": "Derek Sagers Art Portfolio",
+  "description": "Art portfolio and commissions showcase for Derek Sagers.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

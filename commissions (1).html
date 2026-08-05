@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commissions | Derek Sagers</title>
+    <link rel="stylesheet" href="commissions-style.css">
+</head>
+<body>
+
+    <nav class="top-nav">
+        <a href="index.html" class="site-logo" aria-label="Home">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle"
+                      font-family="Georgia, serif" font-size="22" fill="white" letter-spacing="1">DS</text>
+                <rect x="1" y="1" width="46" height="46" rx="4" stroke="white" stroke-width="1.2" fill="none"/>
+            </svg>
+        </a>
+        <div class="nav-links">
+            <a href="portfolio.html" class="nav-link">Gallery</a>
+        </div>
+    </nav>
+
+    <header class="page-header reveal">
+        <p class="page-eyebrow">Work with me</p>
+        <h1>Commissions</h1>
+        <p class="page-sub">All commissions include a sketch approval stage before final delivery. Reach out via the button below to get started.</p>
+    </header>
+
+    <main class="commissions-grid" id="commissionsGrid"></main>
+
+    <footer class="site-footer reveal">
+        <span>© 2026 Derek Sagers. All rights reserved.</span>
+        <div class="footer-links">
+            <a href="portfolio.html" class="footer-link">Gallery</a>
+            <a href="#" class="footer-link">Instagram</a>
+            <a href="#" class="footer-link">Behance</a>
+        </div>
+    </footer>
+
+    <!-- Contact button -->
+    <button id="contactBtn" class="contact-btn" aria-label="Copy email">
+        <span class="contact-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2"/>
+                <path d="M2 7l10 7 10-7"/>
+            </svg>
+        </span>
+        <span class="contact-label">
+            <span class="contact-default">GET IN TOUCH</span>
+            <span class="contact-copied">EMAIL COPIED ✓</span>
+        </span>
+    </button>
+
+    <!-- Commission Sample Image Viewing Modal -->
+    <div class="comm-modal" id="commModal" aria-hidden="true">
+        <div class="comm-modal-backdrop" id="commModalBackdrop"></div>
+        <div class="comm-modal-card" id="commModalCard">
+            <button class="comm-modal-close" id="commModalClose" aria-label="Close modal">✕</button>
+            <div class="comm-modal-header">
+                <div class="comm-modal-title-group">
+                    <span class="comm-modal-eyebrow">Sample Artwork</span>
+                    <h3 id="commModalTitle">Commission Samples</h3>
+                </div>
+                <span class="comm-modal-counter" id="commModalCounter">1 of 1</span>
+            </div>
+            <div class="comm-modal-stage">
+                <button class="comm-modal-nav comm-nav-prev" id="commModalPrev" aria-label="Previous sample">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                </button>
+                <div class="comm-modal-img-wrap">
+                    <img id="commModalImg" src="" alt="Commission sample preview">
+                </div>
+                <button class="comm-modal-nav comm-nav-next" id="commModalNext" aria-label="Next sample">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                </button>
+            </div>
+            <div class="comm-modal-thumbs" id="commModalThumbs"></div>
+        </div>
+    </div>
+
+    <div class="page-transition-overlay"></div>
+    <script type="module" src="commissions-logic.js"></script>
+</body>
+</html>

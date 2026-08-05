@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collection | Derek Sagers</title>
+    <link rel="stylesheet" href="portfolio-style.css">
+</head>
+<body>
+
+    <!-- Collection Scroll Progress Bar -->
+    <div class="scroll-progress-track">
+        <div class="scroll-progress-bar" id="scrollProgressBar"></div>
+    </div>
+
+    <!-- Gallery Fullscreen Loading Screen -->
+    <div class="gallery-loader-screen" id="galleryLoader">
+        <div class="loader-content">
+            <svg class="loader-monogram" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle"
+                      font-family="Georgia, serif" font-size="22" fill="white" letter-spacing="1">DS</text>
+                <rect x="1" y="1" width="46" height="46" rx="4" stroke="white" stroke-width="1.2" fill="none"/>
+            </svg>
+            <div class="loader-title">DEREK SAGERS</div>
+            <div class="loader-status" id="loaderStatus">Preparing your experience...</div>
+            <div class="loader-progress-track">
+                <div class="loader-progress-fill" id="loaderProgressFill"></div>
+            </div>
+            <div class="loader-percent" id="loaderPercent">0%</div>
+        </div>
+    </div>
+
+    <nav class="top-nav">
+        <a href="index.html" class="site-logo" aria-label="Home">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle"
+                      font-family="Georgia, serif" font-size="22" fill="white" letter-spacing="1">DS</text>
+                <rect x="1" y="1" width="46" height="46" rx="4" stroke="white" stroke-width="1.2" fill="none"/>
+            </svg>
+        </a>
+        <div class="nav-links">
+            <a href="commissions.html" class="nav-link">Commissions</a>
+            <button class="nav-link" id="aboutBtn">About</button>
+        </div>
+    </nav>
+
+    <!-- About slide-in panel -->
+    <div class="about-panel" id="aboutPanel">
+        <button class="about-close" id="aboutClose" aria-label="Close">✕</button>
+        <div class="about-content">
+            <!-- Set src to a real URL to show photo; leave empty string to hide -->
+            <div class="about-photo-wrap" id="aboutPhotoWrap">
+                <img class="about-photo" id="aboutPhoto" src="https://picsum.photos/600/400?random=about" alt="Derek Sagers">
+            </div>
+            <h2>About Derek</h2>
+            <p class="about-bio">
+                Derek Sagers is an artist working across digital illustration, watercolor, and mixed media.
+                His work explores tension between the organic and the synthetic — soft washes of colour
+                pressed against hard-edged geometry, handmade textures layered beneath glitch and noise.
+            </p>
+            <p class="about-bio">
+                Based in the US, he draws influence from science fiction concept art, traditional printmaking,
+                and the quiet strangeness of everyday objects. Each piece begins as an intuition and ends
+                somewhere unexpected.
+            </p>
+            <div class="about-tags">
+                <span>Digital Illustration</span>
+                <span>Watercolor</span>
+                <span>Mixed Media</span>
+                <span>Textile &amp; Craft</span>
+                <span>Concept Art</span>
+            </div>
+        </div>
+    </div>
+    <div class="about-overlay" id="aboutOverlay"></div>
+
+    <div class="portfolio-header reveal">
+        <div class="search-container reveal">
+            <input type="text" id="artSearch" placeholder="SEARCH PIECES…" autocomplete="off">
+        </div>
+        <div class="tabs reveal">
+            <div class="tab-indicator" id="tabIndicator"></div>
+            <button class="tab-btn active" data-filter="all">All</button>
+            <button class="tab-btn" data-filter="Digital">Digital</button>
+            <button class="tab-btn" data-filter="Watercolor">Watercolor</button>
+            <button class="tab-btn" data-filter="Media">Other Media</button>
+            <button class="tab-btn" data-filter="Craft">Handmade</button>
+        </div>
+    </div>
+
+    <div class="gallery" id="galleryGrid"></div>
+
+    <footer class="site-footer reveal">
+        <span>© 2026 Derek Sagers. All rights reserved.</span>
+        <a href="commissions.html" class="footer-link">Commissions</a>
+    </footer>
+
+    <button id="contactBtn" class="contact-btn" aria-label="Copy email">
+        <span class="contact-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2"/>
+                <path d="M2 7l10 7 10-7"/>
+            </svg>
+        </span>
+        <span class="contact-label">
+            <span class="contact-default">GET IN TOUCH</span>
+            <span class="contact-copied">EMAIL COPIED ✓</span>
+        </span>
+    </button>
+
+    <div class="modal" id="artModal">
+        <button class="modal-nav modal-prev" id="modalPrev" aria-label="Previous artwork">&#8592;</button>
+        <button class="modal-nav modal-next" id="modalNext" aria-label="Next artwork">&#8594;</button>
+        <div class="modal-content" id="modalContent">
+            <img src="" alt="" class="modal-img" id="modalImg">
+            <div class="modal-info">
+                <h2 id="modalTitle"></h2>
+                <div id="modalDate" class="date"></div>
+                <p id="modalDesc"></p>
+                <button class="close-modal-btn" onclick="closeModal()">BACK TO GALLERY</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-transition-overlay"></div>
+    <script type="module" src="portfolio-logic.js"></script>
+</body>
+</html>
